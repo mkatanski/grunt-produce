@@ -2,7 +2,7 @@
  * grunt-create
  * https://github.com/mkatanski/grunt-create
  *
- * Copyright (c) 2015 Micha� Kata�ski
+ * Copyright (c) 2015 Michał Katański
  * Licensed under the MIT license.
  */
 
