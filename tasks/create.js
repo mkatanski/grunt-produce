@@ -13,9 +13,6 @@ module.exports = function(grunt) {
 
   'use strict';
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
-
   var MODULE_NAME       = 'create',
       MODULE_DESC       = 'Automating the process of creating project files',
       NEW_LINE          = '\n',
@@ -25,19 +22,32 @@ module.exports = function(grunt) {
       template          = [];
 
 
+  /**
+   * Replace parameters in string
+   *
+   * @param str {string} String to search for parameters
+   * @returns {string} Expanded string
+   */
   function expandString(str) {
     for (var paramName in parameters) {
+      // TODO: Add warning about non existing parameters with optional line number
       str = str.replace('{{'+paramName+'}}', parameters[paramName]);
     }
     return str;
   }
 
+  /**
+   * Replace paramaters in template file
+   */
   function expandTemplate() {
     template.forEach(function(line, lineIndex){
       template[lineIndex] = expandString(line);
     });
   }
 
+  /**
+   * Create parameters to use in template
+   */
   function prepareParameters() {
 
     // Assign to paramaters object initial values
@@ -45,17 +55,20 @@ module.exports = function(grunt) {
     parameters['email']           = options.email;
     parameters['version']         = options.version;
 
-    if (grunt.util.kindOf(options.params) === 'array') {
+    if (grunt.util.kindOf(options.parameters) === 'array') {
 
+      // TODO: Add warning about declared but unused (empty) parameters
       // for each defined paramater collect param value
-      options.params.forEach(function (paramName) {
+      options.parameters.forEach(function (paramName) {
         // Assign param value to parameters object
         parameters[paramName] = grunt.option(paramName) || '';
       });
     }
-
   }
 
+  /**
+   * Main grunt module function
+   */
   grunt.registerMultiTask(MODULE_NAME, MODULE_DESC, function() {
     var async       = this.async(),
         _this       = this,
@@ -81,10 +94,16 @@ module.exports = function(grunt) {
         'email'           : _gitConfig['user.email'] || '',
         'version'         : '0.1.0',
         'fileName'        : '{{name}}.ts',
-        'cwd'             : ''
+        'cwd'             : '',
+        'template'        : '',
+        'parameters'      : []
+        // TODO: Change parameters option to object with name and default value
       });
 
+      // TODO: Check for required options [fileName, template]
+
       // Check if template file exists
+      // TODO: Template can be also a string
       if(!grunt.file.exists(options.template)) {
         grunt.fail.fatal('Template doesn\'t exists! [' + options.template + ']');
       }
@@ -95,19 +114,28 @@ module.exports = function(grunt) {
       // Collect all defined parameters
       prepareParameters();
 
-      if (grunt.util.kindOf(options.fileNameResolve) === 'function') {
-        options.fileName = options.fileNameResolve(parameters);
+      // TODO: Add step-by-step functionality to collect parameters
+
+      // if fileName is a function, run it passing parameters as an argument
+      if (grunt.util.kindOf(options.fileName) === 'function') {
+        options.fileName = options.fileName(parameters);
       }
 
+      // Replace parameters in file name
       options.fileName = expandString(options.fileName);
+      // Create destination path
       destinationFile = path.join(options.cwd, options.fileName);
+
+      // Replace parameters in template file
+      expandTemplate();
 
       // Check if destination file exists
       if(grunt.file.exists(destinationFile)) {
+
+        // TODO: Add option to overwrite existing files
+
         grunt.fail.fatal('Destination file exists! [' + destinationFile + ']');
       }
-
-      expandTemplate();
 
       // Save file
       grunt.file.write(destinationFile, template.join(NEW_LINE));
