@@ -37,7 +37,7 @@ module.exports = function(grunt) {
   }
 
   /**
-   * Replace paramaters in template file
+   * Replace parameters in template file
    */
   function expandTemplate() {
     template.forEach(function(line, lineIndex){
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
    */
   function prepareParameters() {
 
-    // Assign to paramaters object initial values
+    // Assign to parameters object initial values
     parameters['username']        = options.username;
     parameters['email']           = options.email;
     parameters['version']         = options.version;
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
     if (grunt.util.kindOf(options.parameters) === 'array') {
 
       // TODO: Add warning about declared but unused (empty) parameters
-      // for each defined paramater collect param value
+      // for each defined parameter collect param value
       options.parameters.forEach(function (paramName) {
         // Assign param value to parameters object
         parameters[paramName] = grunt.option(paramName) || '';
