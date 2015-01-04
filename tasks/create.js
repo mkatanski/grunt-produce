@@ -74,6 +74,12 @@ module.exports = function(grunt) {
         _this       = this,
         _gitConfig  = {};
 
+    // Prevent running multiple targets
+    if (grunt.cli.tasks.toString() == MODULE_NAME) {
+      // TODO: Display possible targets to run with parameters
+      grunt.fail.fatal('You have to specify target name!');
+    }
+
     // Get git config values for username and user e-mail
     eachAsync(['user.name', 'user.email'], function (item, index, done) {
       grunt.util.spawn({ cmd: 'git', args: ['config', item]}, function(error, result){
