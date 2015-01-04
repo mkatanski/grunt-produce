@@ -30,20 +30,15 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     create: {
-      default_options: {
+      controller: {
         options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
-      },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!'
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+          template: 'templates/controller.tpl',
+          params:   [
+              'name',
+              'module'
+          ],
+          fileName: '{{module}}/controllers/{{name}}.js',
+          cwd:      'tmp//////'
         }
       }
     },

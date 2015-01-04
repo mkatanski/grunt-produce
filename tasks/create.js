@@ -6,44 +6,113 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
+var eachAsync = require('each-async'),
+    path      = require('path');
 
 module.exports = function(grunt) {
+
+  'use strict';
 
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('create', 'Automating the process of creating project files', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
+  var MODULE_NAME       = 'create',
+      MODULE_DESC       = 'Automating the process of creating project files',
+      NEW_LINE          = '\n',
+      options           = {},
+      parameters        = {},
+      destinationFile   = '',
+      template          = [];
+
+
+  function expandString(str) {
+    for (var paramName in parameters) {
+      str = str.replace('{{'+paramName+'}}', parameters[paramName]);
+    }
+    return str;
+  }
+
+  function expandTemplate() {
+    template.forEach(function(line, lineIndex){
+      template[lineIndex] = expandString(line);
     });
+  }
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+  function prepareParameters() {
+
+    // Assign to paramaters object initial values
+    parameters['username']        = options.username;
+    parameters['email']           = options.email;
+    parameters['version']         = options.version;
+
+    if (grunt.util.kindOf(options.params) === 'array') {
+
+      // for each defined paramater collect param value
+      options.params.forEach(function (paramName) {
+        // Assign param value to parameters object
+        parameters[paramName] = grunt.option(paramName) || '';
+      });
+    }
+
+  }
+
+  grunt.registerMultiTask(MODULE_NAME, MODULE_DESC, function() {
+    var async       = this.async(),
+        _this       = this,
+        _gitConfig  = {};
+
+    // Get git config values for username and user e-mail
+    eachAsync(['user.name', 'user.email'], function (item, index, done) {
+      grunt.util.spawn({ cmd: 'git', args: ['config', item]}, function(error, result){
+        // If result is stdout append git config value to gitConfig object
+        if (result.stdout) {
+          _gitConfig[item] = String(result);
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+        // Set current async process as finished
+        done();
+      });
+    }, function () {
+      // All async processes are finished
+      async();
 
-      // Handle options.
-      src += options.punctuation;
+      // Merge task-specific and/or target-specific options with these defaults.
+      options = _this.options({
+        'username'        : _gitConfig['user.name'] || '',
+        'email'           : _gitConfig['user.email'] || '',
+        'version'         : '0.1.0',
+        'fileName'        : '{{name}}.ts',
+        'cwd'             : ''
+      });
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+      // Check if template file exists
+      if(!grunt.file.exists(options.template)) {
+        grunt.fail.fatal('Template doesn\'t exists! [' + options.template + ']');
+      }
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+      // Read template file
+      template  = grunt.file.read(options.template).split(NEW_LINE);
+
+      // Collect all defined parameters
+      prepareParameters();
+
+      if (grunt.util.kindOf(options.fileNameResolve) === 'function') {
+        options.fileName = options.fileNameResolve(parameters);
+      }
+
+      options.fileName = expandString(options.fileName);
+      destinationFile = path.join(options.cwd, options.fileName);
+
+      // Check if destination file exists
+      if(grunt.file.exists(destinationFile)) {
+        grunt.fail.fatal('Destination file exists! [' + destinationFile + ']');
+      }
+
+      expandTemplate();
+
+      // Save file
+      grunt.file.write(destinationFile, template.join(NEW_LINE));
+      grunt.log.writeln('File saved as: ' + destinationFile);
+
     });
   });
 
