@@ -23,27 +23,27 @@ module.exports = function(grunt) {
       }
     },
 
-    // Configuration to be run (and then tested).
+    // Sample configuration
     create: {
-      test: {
+      jqplugin: {
         options: {
-          template: 'templates/template.tpl',
+          template: 'templates/jq_template.tpl',
           variables: {
-            name: 'TestController',
-            description: 'Default Description'
+            name: 'MyPlugin',
+            description: 'Default description'
           },
-          fileName: 'tmp/test/{{name}}.js',
+          fileName: 'tmp/test/{{name}}.coffee'
         }
       },
       another: {
         options: {
-          template: 'templates/template.tpl',
-          variables:   [
-            'name',
-            'description'
-          ],
-          fileName: function(params){
-            return 'tmp/another/' + params.name + '.css';
+          template: 'templates/jq_template.tpl',
+          variables: {
+            name: 'MyPlugin',
+            description: 'Default description'
+          },
+          fileName: function(vars){
+            return 'tmp/another/' + vars.name + '.coffee';
           }
         }
       }
