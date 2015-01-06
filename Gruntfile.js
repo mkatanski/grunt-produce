@@ -32,21 +32,19 @@ module.exports = function(grunt) {
               'name',
               'description'
           ],
-          fileName: 'test/{{name}}.js',
-          cwd:      'tmp'
+          fileName: 'tmp/test/{{name}}.js',
         }
       },
       another: {
         options: {
           template: 'templates/template.tpl',
-          parameters:   [
+          variables:   [
             'name',
             'description'
           ],
           fileName: function(params){
-            return 'another/' + params.name + '.css';
-          },
-          cwd:      'tmp'
+            return 'tmp/another/' + params.name + '.css';
+          }
         }
       }
     }

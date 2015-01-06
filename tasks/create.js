@@ -17,27 +17,27 @@ module.exports = function(grunt) {
       MODULE_DESC       = 'Automating the process of creating project files',
       NEW_LINE          = '\n',
       options           = {},
-      parameters        = {},
+      variables        = {},
       destinationFile   = '',
       template          = [];
 
 
   /**
-   * Replace parameters in string
+   * Replace variables in string
    *
-   * @param str {string} String to search for parameters
+   * @param str {string} String to search for variables
    * @returns {string} Expanded string
    */
   function expandString(str) {
-    for (var paramName in parameters) {
-      // TODO: Add warning about non existing parameters with optional line number
-      str = str.replace('{{'+paramName+'}}', parameters[paramName]);
+    for (var varName in variables) {
+      // TODO: Add warning about non existing variables with optional line number
+      str = str.replace('{{'+varName+'}}', variables[varName]);
     }
     return str;
   }
 
   /**
-   * Replace parameters in template file
+   * Replace variables in template file
    */
   function expandTemplate() {
     template.forEach(function(line, lineIndex){
@@ -46,22 +46,21 @@ module.exports = function(grunt) {
   }
 
   /**
-   * Create parameters to use in template
+   * Create variables to use in template
    */
-  function prepareParameters() {
+  function prepareVariables() {
 
-    // Assign to parameters object initial values
-    parameters['username']        = options.username;
-    parameters['email']           = options.email;
-    parameters['version']         = options.version;
+    // Assign to variables object initial values
+    variables['username']        = options.username;
+    variables['email']           = options.email;
 
-    if (grunt.util.kindOf(options.parameters) === 'array') {
+    if (grunt.util.kindOf(options.variables) === 'array') {
 
-      // TODO: Add warning about declared but unused (empty) parameters
+      // TODO: Add warning about declared but unused (empty) variables
       // for each defined parameter collect param value
-      options.parameters.forEach(function (paramName) {
-        // Assign param value to parameters object
-        parameters[paramName] = grunt.option(paramName) || '';
+      options.variables.forEach(function (varName) {
+        // Assign param value to variables object
+        variables[varName] = grunt.option(varName) || '';
       });
     }
   }
@@ -76,7 +75,7 @@ module.exports = function(grunt) {
 
     // Prevent running multiple targets
     if (grunt.cli.tasks.toString() == MODULE_NAME) {
-      // TODO: Display possible targets to run with parameters
+      // TODO: Display possible targets to run with variables
       grunt.fail.fatal('You have to specify target name!');
     }
 
@@ -96,15 +95,14 @@ module.exports = function(grunt) {
 
       // Merge task-specific and/or target-specific options with these defaults.
       options = _this.options({
-        'username'        : _gitConfig['user.name'] || '',
-        'email'           : _gitConfig['user.email'] || '',
-        'version'         : '0.1.0',
         'fileName'        : '{{name}}.ts',
-        'cwd'             : '',
         'template'        : '',
-        'parameters'      : []
-        // TODO: Change parameters option to object with name and default value
+        'variables'      : []
+        // TODO: Change variables option to object with name and default value
       });
+
+      options.username = _gitConfig['user.name'] || '';
+      options.email = _gitConfig['user.email'] || '';
 
       // TODO: Check for required options [fileName, template]
 
@@ -117,22 +115,22 @@ module.exports = function(grunt) {
       // Read template file
       template  = grunt.file.read(options.template).split(NEW_LINE);
 
-      // Collect all defined parameters
-      prepareParameters();
+      // Collect all defined variables
+      prepareVariables();
 
-      // TODO: Add step-by-step functionality to collect parameters
+      // TODO: Add step-by-step functionality to collect variables
 
-      // if fileName is a function, run it passing parameters as an argument
+      // if fileName is a function, run it passing variables as an argument
       if (grunt.util.kindOf(options.fileName) === 'function') {
-        options.fileName = options.fileName(parameters);
+        options.fileName = options.fileName(variables);
       }
 
-      // Replace parameters in file name
+      // Replace variables in file name
       options.fileName = expandString(options.fileName);
       // Create destination path
-      destinationFile = path.join(options.cwd, options.fileName);
+      destinationFile = path.join(options.fileName);
 
-      // Replace parameters in template file
+      // Replace variables in template file
       expandTemplate();
 
       // Check if destination file exists

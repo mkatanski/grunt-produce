@@ -78,11 +78,11 @@ fileName: function(vars) {
 
 ----------
 
-#### options.parameters
+#### options.variables
 Type: `Array`
 Default value: `['name']`
 
-Array of defined custom parameters than can be passed into module while creating new file from template. Those parameters can be used as variables in template file or in destination file path. For more information go to variables section of this document.
+Array of defined custom variables than can be passed into module while creating new file from template. Those parameters can be used as variables in template file or in destination file path. For more information go to variables section of this document.
 
 ### Variables
 
@@ -124,7 +124,7 @@ grunt.initConfig({
     jqplugin: {
         options: {
           template: 'templates/jq_plugin.tpl',
-          parameters:   [
+          variables:   [
               'name',
               'description'
           ],
