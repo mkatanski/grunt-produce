@@ -39,6 +39,8 @@
     "gruntplugin"
   ],
   "dependencies": {
-    "each-async": "^1.1.1"
+    "each-async": "^1.1.1",
+    "inquirer": "^0.8.0",
+    "lodash": "^2.4.1"
   }
 }

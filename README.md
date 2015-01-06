@@ -46,6 +46,8 @@ For above example to run `target_name` type in console/terminal:
 grunt create:target_name
 ```
 
+After doing this you should be prompted for all possible variables values. There is also possibility to pass variables values directly using flags. For more information about passing variable value go to variables section of this document.
+
 **Note:** You can't run `grunt create` task without providing a target name.
 
 ### Options
@@ -102,7 +104,26 @@ You can use variables to modify template file and/or destination file name. Exce
 
 #### Passing data to variables
 
-To pass value to defined variable while running `grunt create:target` task use following format:
+By default, running
+```shell
+grunt create:target
+```
+
+grunt will prompt for all defined variables including default ones. This grunt plugin is using `inquire` module to do prompts. Reffering to its documentation it should well support following OS terminals:
+
+ - Mac OS: 
+	 - Terminal.app 
+	 - iTerm 
+ - Windows: 
+	 - cmd.exe 
+	 - Powershell 
+	 - Cygwin 
+ - Ubuntu:
+	 - Terminal
+
+If you prefer you can pass variables data directly using flags. This way prompting will be omitted, however variables that will not get their data will use default one defined in Gruntfile.
+
+To pass value to defined variable directly while running `grunt create:target` task use following format:
 ```shell
 grunt create:target --variable_name="variable value"
 ```

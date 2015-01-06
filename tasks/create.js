@@ -7,7 +7,9 @@
  */
 
 var eachAsync = require('each-async'),
-    path      = require('path');
+    path      = require('path'),
+    inquirer  = require('inquirer'),
+    _         = require('lodash');
 
 module.exports = function(grunt) {
 
@@ -46,22 +48,76 @@ module.exports = function(grunt) {
   }
 
   /**
+   * Get array of questions for prompting user
+   */
+  function getQuestions() {
+    var questions = [],
+        i         = 0;
+
+    for (var varName in variables) {
+      questions[i] = {
+        name: varName,
+        message: varName,
+        default: variables[varName]
+      };
+      i++;
+    }
+
+    return questions;
+  }
+
+  /**
    * Create variables to use in template
+   * @returns {number} Number of collected variables via CLI
    */
   function prepareVariables() {
+    // number of collected variables via CLI
+    var collectedVariables = 0;
 
     // Assign to variables object initial values
     variables['username']        = options.username;
     variables['email']           = options.email;
 
     if (grunt.util.kindOf(options.variables) === 'object') {
-
-      // TODO: Add warning about declared but unused (empty) variables
       // for each defined variable collect variable value
       for (var varName in options.variables) {
+        if (grunt.option(varName)) {
+          collectedVariables++;
+        }
         variables[varName] = grunt.option(varName) || options.variables[varName];
       }
     }
+    return collectedVariables;
+  }
+
+  /**
+   * Do final steps to finish current task
+   */
+  function finalizeTask() {
+    // if fileName is a function, run it passing variables as an argument
+    if (grunt.util.kindOf(options.fileName) === 'function') {
+      options.fileName = options.fileName(variables);
+    }
+
+    // Replace variables in file name
+    options.fileName = expandString(options.fileName);
+    // Create destination path
+    destinationFile = path.join(options.fileName);
+
+    // Replace variables in template file
+    expandTemplate();
+
+    // Check if destination file exists
+    if(grunt.file.exists(destinationFile)) {
+
+      // TODO: Add option to overwrite existing files
+
+      grunt.fail.fatal('Destination file exists! [' + destinationFile + ']');
+    }
+
+    // Save file
+    grunt.file.write(destinationFile, template.join(NEW_LINE));
+    grunt.log.writeln('File saved as: ' + destinationFile);
   }
 
   /**
@@ -89,9 +145,6 @@ module.exports = function(grunt) {
         done();
       });
     }, function () {
-      // All async processes are finished
-      async();
-
       // Merge task-specific and/or target-specific options with these defaults.
       options = _this.options({
         'fileName'        : '{{name}}.ts',
@@ -113,36 +166,29 @@ module.exports = function(grunt) {
       // Read template file
       template  = grunt.file.read(options.template).split(NEW_LINE);
 
-      // Collect all defined variables
-      prepareVariables();
+      // Prepare defined variables and get count of passed variables via CLI
+      var varNum = prepareVariables();
 
-      // TODO: Add step-by-step functionality to collect variables
+      if (varNum === 0) {
+        // if no vars has been passed, prompt user for every variable
+        inquirer.prompt( getQuestions(), function( answers ) {
+          _(answers).forEach(function(answer, varName){
+            // assign user answers to variable
+            variables[varName] = answer;
+          });
+          // finish async mode
+          async();
+          // finalize task
+          finalizeTask();
+        });
 
-      // if fileName is a function, run it passing variables as an argument
-      if (grunt.util.kindOf(options.fileName) === 'function') {
-        options.fileName = options.fileName(variables);
+      } else {
+        // use passed values
+        // finish async mode
+        async();
+        // finalize task
+        finalizeTask();
       }
-
-      // Replace variables in file name
-      options.fileName = expandString(options.fileName);
-      // Create destination path
-      destinationFile = path.join(options.fileName);
-
-      // Replace variables in template file
-      expandTemplate();
-
-      // Check if destination file exists
-      if(grunt.file.exists(destinationFile)) {
-
-        // TODO: Add option to overwrite existing files
-
-        grunt.fail.fatal('Destination file exists! [' + destinationFile + ']');
-      }
-
-      // Save file
-      grunt.file.write(destinationFile, template.join(NEW_LINE));
-      grunt.log.writeln('File saved as: ' + destinationFile);
-
     });
   });
 
