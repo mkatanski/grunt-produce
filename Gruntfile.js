@@ -28,10 +28,10 @@ module.exports = function(grunt) {
       test: {
         options: {
           template: 'templates/template.tpl',
-          parameters:   [
-              'name',
-              'description'
-          ],
+          variables: {
+            name: 'TestController',
+            description: 'Default Description'
+          },
           fileName: 'tmp/test/{{name}}.js',
         }
       },

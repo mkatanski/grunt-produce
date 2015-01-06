@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       MODULE_DESC       = 'Automating the process of creating project files',
       NEW_LINE          = '\n',
       options           = {},
-      variables        = {},
+      variables         = {},
       destinationFile   = '',
       template          = [];
 
@@ -54,14 +54,13 @@ module.exports = function(grunt) {
     variables['username']        = options.username;
     variables['email']           = options.email;
 
-    if (grunt.util.kindOf(options.variables) === 'array') {
+    if (grunt.util.kindOf(options.variables) === 'object') {
 
       // TODO: Add warning about declared but unused (empty) variables
-      // for each defined parameter collect param value
-      options.variables.forEach(function (varName) {
-        // Assign param value to variables object
-        variables[varName] = grunt.option(varName) || '';
-      });
+      // for each defined variable collect variable value
+      for (var varName in options.variables) {
+        variables[varName] = grunt.option(varName) || options.variables[varName];
+      }
     }
   }
 
@@ -97,8 +96,7 @@ module.exports = function(grunt) {
       options = _this.options({
         'fileName'        : '{{name}}.ts',
         'template'        : '',
-        'variables'      : []
-        // TODO: Change variables option to object with name and default value
+        'variables'       : {name: 'MyFile'}
       });
 
       options.username = _gitConfig['user.name'] || '';

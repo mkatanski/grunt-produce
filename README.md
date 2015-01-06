@@ -79,10 +79,20 @@ fileName: function(vars) {
 ----------
 
 #### options.variables
-Type: `Array`
-Default value: `['name']`
+Type: `Object`
+Default value: `{name: 'MyFile'}`
 
-Array of defined custom variables than can be passed into module while creating new file from template. Those parameters can be used as variables in template file or in destination file path. For more information go to variables section of this document.
+Object containing custom variables than can be passed into module while creating new file from template. 
+
+Each object item contains variable name and its default value, ie:
+```js
+options.variables: {
+	my_var: 'val'
+}
+```
+where `my_var` is custom variable name and `'val'` is its default value which will be used if this variable will be omitted.
+
+Those variables can be used in template file or in destination file path. For more information go to variables section of this document.
 
 ### Variables
 
@@ -124,10 +134,10 @@ grunt.initConfig({
     jqplugin: {
         options: {
           template: 'templates/jq_plugin.tpl',
-          variables:   [
-              'name',
-              'description'
-          ],
+          variables:   {
+              name: 'MyPlugin',
+              description: 'Default description'
+          },
           fileName: 'scripts/{{name}}.coffee'
         }
      },
