@@ -155,7 +155,13 @@ module.exports = function(grunt) {
       options.username = _gitConfig['user.name'] || '';
       options.email = _gitConfig['user.email'] || '';
 
-      // TODO: Check for required options [fileName, template]
+      if (grunt.util.kindOf(options.fileName) !== 'function' && grunt.util.kindOf(options.fileName) !== 'string') {
+        grunt.fail.fatal('fileName is required and must be a string or function');
+      }
+
+      if (grunt.util.kindOf(options.template) !== 'string') {
+        grunt.fail.fatal('template is required and must be a string');
+      }
 
       // Check if template file exists
       // TODO: Template can be also a string
