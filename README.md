@@ -1,4 +1,4 @@
-# grunt-create
+# grunt-produce
 
 > Automating the process of creating project files.
 
@@ -12,23 +12,23 @@ This plugin requires Grunt `~0.4.5`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-create --save-dev
+npm install grunt-produce--save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-create');
+grunt.loadNpmTasks('grunt-produce');
 ```
 
-## The "create" task
+## The "produce" task
 
 ### Overview
-In your project's Gruntfile, add a section named `create` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `produce` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  create: {
+  produce: {
     target_name: {
         options: {
           // options
@@ -43,12 +43,12 @@ This will allow you to use grunt cli to run this task for selected target. Name 
 For above example to run `target_name` type in console/terminal:
 
 ```shell
-grunt create:target_name
+grunt produce:target_name
 ```
 
 After doing this you should be prompted for all possible variables values. There is also possibility to pass variables values directly using flags. For more information about passing variable value go to variables section of this document.
 
-**Note:** You can't run `grunt create` task without providing a target name.
+**Note:** You can't run `grunt produce` task without providing a target name.
 
 ### Options
 
@@ -106,7 +106,7 @@ You can use variables to modify template file and/or destination file name. Exce
 
 By default, running
 ```shell
-grunt create:target
+grunt produce:target
 ```
 
 grunt will prompt for all defined variables including default ones. This grunt plugin is using `inquire` module to do prompts. Reffering to its documentation it should well support following OS terminals:
@@ -123,9 +123,9 @@ grunt will prompt for all defined variables including default ones. This grunt p
 
 If you prefer you can pass variables data directly using flags. This way prompting will be omitted, however variables that will not get their data will use default one defined in Gruntfile.
 
-To pass value to defined variable directly while running `grunt create:target` task use following format:
+To pass value to defined variable directly while running `grunt produce:target` task use following format:
 ```shell
-grunt create:target --variable_name="variable value"
+grunt produce:target --variable_name="variable value"
 ```
 
 This way you can pass value to multiple variables, ie:
@@ -151,7 +151,7 @@ user.email = jdoe@example.com
 
 ```js
 grunt.initConfig({
-  create: {
+  produce: {
     jqplugin: {
         options: {
           template: 'templates/jq_plugin.tpl',
@@ -206,7 +206,7 @@ do ($ = jQuery, window, document) ->
 To create new plugin type in console/terminal:
 
 ```shell
-grunt ceate:jqplugin --name=BestPluginEver --description="This is my best plugin"
+grunt produce:jqplugin --name=BestPluginEver --description="This is my best plugin"
 ```
 
 After executing above command, there should be new file:
@@ -228,7 +228,7 @@ do ($ = jQuery, window, document) ->
 
 You can also override default variables:
 ```shell
-grunt ceate:jqplugin --name=BestPluginEver --description="A Plugin" --username="Bugs Bunny" --email=bbunny@example.com
+grunt produce:jqplugin --name=BestPluginEver --description="A Plugin" --username="Bugs Bunny" --email=bbunny@example.com
 ```
 
 in this case output file will contain:

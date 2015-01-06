@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     },
 
     // Sample configuration
-    create: {
+    produce: {
       jqplugin: {
         options: {
           template: 'templates/jq_template.tpl',

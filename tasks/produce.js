@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 
   'use strict';
 
-  var MODULE_NAME       = 'create',
+  var MODULE_NAME       = 'produce',
       MODULE_DESC       = 'Automating the process of creating project files',
       NEW_LINE          = '\n',
       options           = {},

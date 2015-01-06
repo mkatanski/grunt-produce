@@ -1,23 +1,23 @@
 {
-  "name": "grunt-create",
+  "name": "grunt-produce",
   "description": "Automating the process of creating project files",
   "version": "0.1.1",
-  "homepage": "https://github.com/mkatanski/grunt-create",
+  "homepage": "https://github.com/mkatanski/grunt-produce",
   "author": {
     "name": "Michał Katański",
     "email": "mike.katanski@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mkatanski/grunt-create.git"
+    "url": "git://github.com/mkatanski/grunt-produce.git"
   },
   "bugs": {
-    "url": "https://github.com/mkatanski/grunt-create/issues"
+    "url": "https://github.com/mkatanski/grunt-produce/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/mkatanski/grunt-create/blob/master/LICENSE-MIT"
+      "url": "https://github.com/mkatanski/grunt-produce/blob/master/LICENSE-MIT"
     }
   ],
   "engines": {
@@ -36,7 +36,7 @@
     "grunt": "~0.4.5"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin", "generating", "templates", "tool", "CLI"
   ],
   "dependencies": {
     "each-async": "^1.1.1",
