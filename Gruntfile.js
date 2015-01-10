@@ -1,6 +1,6 @@
 /*
- * grunt-create
- * https://github.com/mkatanski/grunt-create
+ * grunt-produce
+ * https://github.com/mkatanski/grunt-produce
  *
  * Copyright (c) 2015 Michał Katański
  * Licensed under the MIT license.
@@ -47,14 +47,20 @@ module.exports = function(grunt) {
           }
         }
       }
+    },
+
+    changelog: {
+      options: {
+      }
     }
 
   });
 
-  // Actually load this plugin's task(s).
+  // Actually load this plugins task(s).
   grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-conventional-changelog');
 
 };

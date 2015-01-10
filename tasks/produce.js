@@ -23,7 +23,6 @@ module.exports = function(grunt) {
       destinationFile   = '',
       template          = [];
 
-
   /**
    * Replace variables in string
    *
