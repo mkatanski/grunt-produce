@@ -1,7 +1,7 @@
 {
   "name": "grunt-produce",
   "description": "Automating the process of creating project files",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/mkatanski/grunt-produce",
   "author": {
     "name": "Michał Katański",
