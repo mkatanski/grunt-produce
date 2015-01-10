@@ -52,6 +52,23 @@ module.exports = function(grunt) {
     changelog: {
       options: {
       }
+    },
+
+    bump: {
+      options: {
+        files: ['package.json'],
+        updateConfigs: [],
+        commit: true,
+        commitMessage: 'Release v%VERSION%',
+        commitFiles: ['-a'],
+        createTag: true,
+        tagName: '%VERSION%',
+        tagMessage: 'Version %VERSION%',
+        push: true,
+        pushTo: 'origin',
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+        globalReplace: false
+      }
     }
 
   });
@@ -62,5 +79,17 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-conventional-changelog');
+  grunt.loadNpmTasks('grunt-bump');
+
+  grunt.registerTask('release', 'Create new release.', function(arg) {
+    if (arguments.length === 0) {
+      grunt.task.run('bump-only');
+    } else {
+      grunt.task.run('bump-only:'+arg);
+    }
+
+    grunt.task.run('changelog');
+    grunt.task.run('bump-commit');
+  });
 
 };
