@@ -80,6 +80,7 @@ module.exports = function (grunt) {
         // Assign to variables object initial values
         variables['username'] = options.username;
         variables['email'] = options.email;
+        // TODO: FIX default variables can be overwrite by arguments without defining them in gruntfile
 
         if (grunt.util.kindOf(options.variables) === 'object') {
             // for each defined variable collect variable value

@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        jshint : {
+        jshint: {
             all    : [
                 'Gruntfile.js',
                 'tasks/*.js',
@@ -23,8 +23,17 @@ module.exports = function (grunt) {
             }
         },
 
+        // Before generating any new files, remove any previously-created files.
+        clean: {
+            tests: ['tmp']
+        },
+
+        nodeunit: {
+            default: ['test/_default.js']
+        },
+
         // Sample configuration
-        produce: {
+        produce : {
             jqplugin: {
                 options: {
                     template : 'templates/jq_template.tpl',
@@ -32,18 +41,21 @@ module.exports = function (grunt) {
                         name       : 'MyPlugin',
                         description: 'Default description'
                     },
-                    fileName : 'tmp/test/{{name}}.coffee'
+                    fileName : 'tmp/{{name}}.coffee'
                 }
             },
-            another : {
+            // Targets for testing
+            test1    : {
                 options: {
-                    template : 'templates/jq_template.tpl',
+                    template : 'test/templates/basic_template.tpl',
                     variables: {
-                        name       : 'MyPlugin',
-                        description: 'Default description'
+                        name       : 'DefaultTest',
+                        description: 'Default description',
+                        username   : 'Username',
+                        email      : 'email'
                     },
                     fileName : function (vars) {
-                        return 'tmp/another/' + vars.name + '.coffee';
+                        return 'tmp/' + vars.name + '.txt';
                     }
                 }
             }
@@ -77,8 +89,22 @@ module.exports = function (grunt) {
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-conventional-changelog');
     grunt.loadNpmTasks('grunt-bump');
+
+    grunt.registerTask('test', 'Run all tests.', function(){
+
+        grunt.task.run('clean');
+
+        grunt.option('name', 'Test1');
+        grunt.option('username', 'John Doe');
+        grunt.option('email', 'jdoe@example.com');
+
+        grunt.task.run('produce:test1');
+        grunt.task.run('nodeunit:default');
+    });
 
     grunt.registerTask('release', 'Create new release.', function (arg) {
         if (arguments.length === 0) {
