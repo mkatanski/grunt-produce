@@ -1,6 +1,6 @@
 /*
- * grunt-create
- * https://github.com/mkatanski/grunt-create
+ * grunt-produce
+ * https://github.com/mkatanski/grunt-produce
  *
  * Copyright (c) 2015 Michał Katański
  * Licensed under the MIT license.
@@ -29,53 +29,57 @@ module.exports = function (grunt) {
      * @param str {string} String to search for variables
      * @returns {string} Expanded string
      */
-    function expandString(str) {
+    var expandString = function(str) {
         for (var varName in variables) {
-            if (variables.hasOwnProperty(varName)) {
-                // TODO: Add warning about non existing variables with optional line number
-                str = str.replace('{{' + varName + '}}', variables[varName]);
+            if (!variables.hasOwnProperty(varName)) {
+                continue;
             }
+            // TODO: Add warning about non existing variables with optional line number
+            str = str.replace('{{' + varName + '}}', variables[varName]);
         }
         return str;
-    }
+    };
 
     /**
      * Replace variables in template file
      */
-    function expandTemplate() {
+    var expandTemplate = function() {
+        // for each line in template
         template.forEach(function (line, lineIndex) {
+            // expand template line
             template[lineIndex] = expandString(line);
         });
-    }
+    };
 
     /**
      * Get array of questions for user
      */
-    function getQuestions() {
-        var questions = [],
+    var getQuestions = function() {
+        var _questions = [],
             i = 0;
-
+        // for each available variable
         for (var varName in variables) {
-            if (variables.hasOwnProperty(varName)) {
-                questions[i] = {
-                    name   : varName,
-                    message: varName,
-                    default: variables[varName]
-                };
-                i++;
+            if (!variables.hasOwnProperty(varName)) {
+                continue;
             }
+            // create new question object
+            _questions[i] = {
+                name   : varName,
+                message: varName,
+                default: variables[varName]
+            };
+            i++;
         }
-
-        return questions;
-    }
+        return _questions;
+    };
 
     /**
      * Create variables to use in template
      * @returns {number} Number of collected variables via CLI
      */
-    function prepareVariables() {
+    var prepareVariables = function() {
         // number of collected variables via CLI
-        var variablesCount = 0;
+        var _variablesCount = 0;
 
         // Assign to variables object initial values
         variables['username'] = options.username;
@@ -85,21 +89,25 @@ module.exports = function (grunt) {
         if (grunt.util.kindOf(options.variables) === 'object') {
             // for each defined variable collect variable value
             for (var varName in options.variables) {
-                if (options.variables.hasOwnProperty(varName)) {
-                    if (grunt.option(varName)) {
-                        variablesCount++;
-                    }
-                    variables[varName] = grunt.option(varName) || options.variables[varName];
+                if (!options.variables.hasOwnProperty(varName)) {
+                    continue;
                 }
+                // if variable is passed in via CLI
+                if (grunt.option(varName)) {
+                    // increment counter
+                    _variablesCount++;
+                }
+                // assign variable value
+                variables[varName] = grunt.option(varName) || options.variables[varName];
             }
         }
-        return variablesCount;
-    }
+        return _variablesCount;
+    };
 
     /**
      * Check if options are correct
      */
-    function checkOptions() {
+    var checkOptions = function() {
         if (grunt.util.kindOf(options.fileName) !== 'function' && grunt.util.kindOf(options.fileName) !== 'string') {
             grunt.fail.fatal('fileName is required and must be a string or function');
         }
@@ -113,12 +121,12 @@ module.exports = function (grunt) {
         if (!grunt.file.exists(options.template)) {
             grunt.fail.fatal('Template doesn\'t exists! [' + options.template + ']');
         }
-    }
+    };
 
     /**
      * Do final steps to finish current task
      */
-    function finalizeTask() {
+    var finalizeTask = function() {
         // if fileName is a function, run it passing variables as an argument
         if (grunt.util.kindOf(options.fileName) === 'function') {
             options.fileName = options.fileName(variables);
@@ -143,13 +151,13 @@ module.exports = function (grunt) {
         // Save file
         grunt.file.write(destinationFile, template.join(NEW_LINE));
         grunt.log.writeln('File saved as: ' + destinationFile);
-    }
+    };
 
     /**
      * Main grunt module function
      */
     grunt.registerMultiTask(MODULE_NAME, MODULE_DESC, function () {
-        var async       = this.async(),
+        var _async      = this.async(),
             _this       = this,
             _gitConfig  = {};
 
@@ -170,6 +178,7 @@ module.exports = function (grunt) {
                 done();
             });
         }, function () {
+
             // Merge task-specific and/or target-specific options with these defaults.
             options = _this.options({
                 'fileName' : '{{name}}.ts',
@@ -178,16 +187,17 @@ module.exports = function (grunt) {
                 // TODO: Add validate functions to each variable and required option
             });
 
-            // Prepare use name and email
-            options.username = _gitConfig['user.name'] || '';
-            options.email = _gitConfig['user.email'] || '';
+            // Assign user name and email
+            // (empty string as default if loading data from git config was unsuccessful)
+            options.username    = _gitConfig['user.name'] || '';
+            options.email       = _gitConfig['user.email'] || '';
 
             checkOptions();
 
             // Read template file
             template = grunt.file.read(options.template).split(NEW_LINE);
 
-            // Prepare defined variables and get count of passed variables via CLI
+            // Prepare defined variables and get count of variables collected via CLI
             var varNum = prepareVariables();
 
             if (varNum === 0) {
@@ -198,15 +208,14 @@ module.exports = function (grunt) {
                         variables[varName] = answer;
                     });
                     // finish async mode
-                    async();
+                    _async();
                     // finalize task
                     finalizeTask();
                 });
-
             } else {
                 // use passed values
                 // finish async mode
-                async();
+                _async();
                 // finalize task
                 finalizeTask();
             }

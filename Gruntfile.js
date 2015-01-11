@@ -47,7 +47,7 @@ module.exports = function (grunt) {
             // Targets for testing
             test1    : {
                 options: {
-                    template : 'test/templates/basic_template.tpl',
+                    template : 'test/template/basic_template.tpl',
                     variables: {
                         name       : 'DefaultTest',
                         description: 'Default description',
