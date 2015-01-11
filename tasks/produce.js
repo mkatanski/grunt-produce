@@ -23,6 +23,8 @@ module.exports = function (grunt) {
             'variables': {name: 'MyFile'}
             // TODO: Add validate functions to each variable and required option
         });
+        // Create new ProduceModule instance
+        var produce = new ProduceModule(grunt);
 
         // Prevent running multiple targets
         if (grunt.cli.tasks.toString() == MODULE_NAME) {
@@ -30,8 +32,17 @@ module.exports = function (grunt) {
             grunt.fail.fatal('You have to specify target name!');
         }
 
-        var produce = new ProduceModule(grunt);
-        produce.runTask(_options, this.async());
+        // setup ProduceModule
+        produce.setup(_options);
+
+        // If prompting for variables is required
+        if(produce.promptUser) {
+            produce.promptUserAsync(this.async(), function(){
+                produce.saveFile();
+            });
+        } else {
+            produce.saveFile();
+        }
 
     });
 };
