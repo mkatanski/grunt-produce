@@ -95,14 +95,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bump');
 
     grunt.registerTask('test', 'Run all tests.', function(){
-
         grunt.task.run('clean');
-
-        grunt.option('name', 'Test1');
-        grunt.option('username', 'John Doe');
-        grunt.option('email', 'jdoe@example.com');
-
-        grunt.task.run('produce:test1');
         grunt.task.run('nodeunit:default');
     });
 

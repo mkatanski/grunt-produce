@@ -28,26 +28,77 @@ exports.bump = {
         done();
     },
     load: function (test) {
-        var isWin = /^win/.test(process.platform);
-        var NEW_LINE = '\n';
-        if(isWin) {
-            NEW_LINE = '\r\n';
-        }
 
-        test.expect(6);
+        test.expect(23);
 
-        var actual = require('../tasks/produce');
-        var expected = 'function';
-        test.equal(typeof actual, expected, 'Should export a function');
+        grunt.option('name', 'Test1');
+
+        var actual = require('../tasks/produce'),
+            ProduceModule = require('../lib/ProduceModule.js'),
+            produce = null;
+
+        test.deepEqual(typeof actual, 'function', 'Should export a function');
+
+        var _options = {
+            template : 'test/template/basic_template.tpl',
+            variables: {
+                name       : 'DefaultTest',
+                description: 'Default description'
+            },
+            fileName : function (vars) {
+                return 'tmp/' + vars.name + '.txt';
+            }
+        };
+
+        test.doesNotThrow(function(){
+            produce = new ProduceModule(grunt);
+        });
+
+        test.doesNotThrow(function(){
+            produce.setup(_options);
+        });
+
+        var gitUsername = produce._getGitConfig('user.name') || '';
+        var gitEmail = produce._getGitConfig('user.email') || '';
+        var template = grunt.file.read(_options.template).split(produce.NEW_LINE);
+
+        test.strictEqual(produce.promptUser, false, 'produce.promptUser should set to false');
+
+        test.strictEqual(produce.template[0], template[0]);
+        test.strictEqual(produce.template[1], template[1]);
+        test.strictEqual(produce.template[2], template[2]);
+        test.strictEqual(produce.template[3], template[3]);
+
+        test.strictEqual(produce.variables.username, gitUsername, 'produce.variables.username should be equal to git config');
+        test.strictEqual(produce.variables.email, gitEmail, 'produce.variables.email should be equal to git config');
+        test.strictEqual(produce.variables.name, 'Test1', 'produce.variables.name should be equal to passed argument');
+        test.strictEqual(produce.variables.description, _options.variables.description, 'produce.variables.description should be default');
+
+        test.doesNotThrow(function(){
+            produce.expandTemplate();
+        });
+
+        template[0] = gitUsername;
+        template[1] = gitEmail;
+        template[2] = 'Test1';
+        template[3] = _options.variables.description;
+
+        test.strictEqual(produce.template[0], template[0]);
+        test.strictEqual(produce.template[1], template[1]);
+        test.strictEqual(produce.template[2], template[2]);
+        test.strictEqual(produce.template[3], template[3]);
+
+        test.doesNotThrow(function(){
+            produce.saveFile();
+        });
+
+        var fileLines = grunt.file.read('tmp/Test1.txt').split(produce.NEW_LINE);
 
         test.ok(grunt.file.exists('tmp/Test1.txt'));
-
-        var template = grunt.file.read('tmp/Test1.txt').split(NEW_LINE);
-
-        test.equal(template[0], 'John Doe', 'Should be "John Doe"');
-        test.equal(template[1], 'jdoe@example.com', 'Should be "jdoe@example.com"');
-        test.equal(template[2], 'Test1', 'Should be "Test1"');
-        test.equal(template[3], 'Default description', 'Should be "Default description"');
+        test.equal(fileLines[0], gitUsername);
+        test.equal(fileLines[1], gitEmail);
+        test.equal(fileLines[2], 'Test1');
+        test.equal(fileLines[3], _options.variables.description);
 
 
         test.done();
