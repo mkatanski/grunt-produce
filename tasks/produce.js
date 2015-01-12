@@ -28,9 +28,19 @@ module.exports = function (grunt) {
         var produce = new ProduceModule(grunt);
 
         // Prevent running multiple targets
-        if (grunt.cli.tasks.toString() == MODULE_NAME) {
-            // TODO: Display possible targets to run with variables
-            grunt.fail.fatal('You have to specify target name!');
+        if (grunt.cli.tasks.toString() === MODULE_NAME) {
+            grunt.log.writeln('' +
+            'You have to specify your target. Possible variables for '+ grunt.task.current.target +' are:'
+            );
+
+            for (var variableName in _options.variables) {
+                if (!_options.variables.hasOwnProperty(variableName)) {
+                    continue;
+                }
+                grunt.log.writeln('--'+variableName);
+            }
+            // stop grunt task
+            return true;
         }
 
         try {
