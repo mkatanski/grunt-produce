@@ -33,16 +33,31 @@ module.exports = function (grunt) {
             grunt.fail.fatal('You have to specify target name!');
         }
 
-        // setup ProduceModule
-        produce.setup(_options);
+        try {
+            // setup ProduceModule
+            produce.setup(_options);
+        }
+        catch(err) {
+            grunt.fail.fatal(err);
+        }
 
         // If prompting for variables is required
         if(produce.promptUser) {
             produce.promptUserAsync(this.async(), function(){
-                produce.saveFile();
+                try {
+                    produce.saveFile();
+                }
+                catch(err) {
+                    grunt.fail.fatal(err);
+                }
             });
         } else {
-            produce.saveFile();
+            try {
+                produce.saveFile();
+            }
+            catch(err) {
+                grunt.fail.fatal(err);
+            }
         }
 
     });

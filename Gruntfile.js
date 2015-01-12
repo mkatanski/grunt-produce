@@ -42,7 +42,7 @@ module.exports = function (grunt) {
                         description: 'Default description'
                     },
                     fileName : 'tmp/{{name}}.coffee',
-                    fileOverwrite : 'warning'
+                    fileOverwrite : 'block'
                 }
             },
             // Targets for testing

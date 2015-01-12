@@ -29,7 +29,7 @@ exports.bump = {
     },
     load: function (test) {
 
-        test.expect(23);
+        test.expect(24);
 
         grunt.option('name', 'Test1');
 
@@ -47,7 +47,8 @@ exports.bump = {
             },
             fileName : function (vars) {
                 return 'tmp/' + vars.name + '.txt';
-            }
+            },
+            'fileOverwrite': 'block'
         };
 
         test.doesNotThrow(function(){
@@ -99,6 +100,10 @@ exports.bump = {
         test.equal(fileLines[1], gitEmail);
         test.equal(fileLines[2], 'Test1');
         test.equal(fileLines[3], _options.variables.description);
+
+        test.throws(function(){
+            produce.saveFile();
+        });
 
 
         test.done();
