@@ -41,7 +41,8 @@ module.exports = function (grunt) {
                         name       : 'MyPlugin',
                         description: 'Default description'
                     },
-                    fileName : 'tmp/{{name}}.coffee'
+                    fileName : 'tmp/{{name}}.coffee',
+                    fileOverwrite : 'warning'
                 }
             },
             // Targets for testing
