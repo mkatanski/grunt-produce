@@ -32,6 +32,7 @@ exports.bump = {
         test.expect(24);
 
         grunt.option('name', 'Test1');
+        grunt.option('email', 'john@example.com');
 
         var actual = require('../tasks/produce'),
             ProduceModule = require('../lib/ProduceModule.js'),
@@ -60,7 +61,7 @@ exports.bump = {
         });
 
         var gitUsername = produce._getGitConfig('user.name') || '';
-        var gitEmail = produce._getGitConfig('user.email') || '';
+        //var gitEmail = produce._getGitConfig('user.email') || '';
         var template = grunt.file.read(_options.template).split(produce.NEW_LINE);
 
         test.strictEqual(produce.promptUser, false, 'produce.promptUser should set to false');
@@ -71,7 +72,7 @@ exports.bump = {
         test.strictEqual(produce.template[3], template[3]);
 
         test.strictEqual(produce.variables.username, gitUsername, 'produce.variables.username should be equal to git config');
-        test.strictEqual(produce.variables.email, gitEmail, 'produce.variables.email should be equal to git config');
+        test.strictEqual(produce.variables.email, 'john@example.com', 'produce.variables.email should be equal to passed argument');
         test.strictEqual(produce.variables.name, 'Test1', 'produce.variables.name should be equal to passed argument');
         test.strictEqual(produce.variables.description, _options.variables.description, 'produce.variables.description should be default');
 
@@ -80,7 +81,7 @@ exports.bump = {
         });
 
         template[0] = gitUsername;
-        template[1] = gitEmail;
+        template[1] = 'john@example.com';
         template[2] = 'Test1';
         template[3] = _options.variables.description;
 
@@ -97,7 +98,7 @@ exports.bump = {
 
         test.ok(grunt.file.exists('tmp/Test1.txt'));
         test.equal(fileLines[0], gitUsername);
-        test.equal(fileLines[1], gitEmail);
+        test.equal(fileLines[1], 'john@example.com');
         test.equal(fileLines[2], 'Test1');
         test.equal(fileLines[3], _options.variables.description);
 
