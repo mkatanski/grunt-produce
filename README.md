@@ -59,6 +59,8 @@ Default value: `''`
 
 Path to template file for current target. You can use variables in template. For more information about variables and its usage go to variables section of this document.
 
+If the path doesn't exists, module will take this option as a template.
+
 ----------
 
 #### options.fileName
@@ -77,6 +79,17 @@ fileName: function(vars) {
 },
 
 ```
+
+----------
+
+#### options.fileOverwrite
+Type: `String`
+Default value: `block`
+
+Possible values: `block` or `warning`
+
+If this variable is set to `block`, the module will throw an error when destination file exists. If this option is set to `warning`, it will overwrite destination file and display warning message.
+
 
 ----------
 
@@ -247,13 +260,13 @@ do ($ = jQuery, window, document) ->
 
 
 ## Contributing
-In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using Grunt: grunt test jshint.
+In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality.
 
 If you want to create new feature or fix bug, do following steps
 
 - Create fork of grunt-produce repository
 - Create new branch
-- Submit a PR (Do not use `gunt release` command)
+- Submit a PR (Do not use `grunt release` command)
 
 Also there is important that:
 
@@ -279,11 +292,17 @@ Any line of the commit message cannot be longer than 100 characters! This allows
 Must be one of the following:
 
 **feat**: A new feature
+
 **fix**: A bug fix
+
 **docs**: Documentation only changes
+
 **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc.)
+
 **refactor**: A code change that neither fixes a bug or adds a feature
+
 **test**: Adding missing tests
+
 **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
 Scope
 
