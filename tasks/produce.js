@@ -23,11 +23,10 @@ module.exports = function (grunt) {
             'variables': {
                 name: {
                     default: 'MyFile',
-                    validate: 'required'
+                    required: true
                 }
             },
             'fileOverwrite': 'block'
-            // TODO: Add validate functions to each variable and required option
         });
         // Create new ProduceModule instance
         var produce = new ProduceModule(grunt);

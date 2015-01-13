@@ -44,10 +44,15 @@ exports.bump = {
             template : 'test/template/basic_template.tpl',
             variables: {
                 name       : {
-                    default: 'DefaultTest'
+                    default: 'DefaultTest',
+                    validate: function(val, validator) {
+                        return validator.isAlphanumeric(val);
+                    },
+                    required: true
                 },
                 description: {
-                    default: 'Default description'
+                    default: 'Default description',
+                    required: true
                 }
             },
             fileName : function (vars) {

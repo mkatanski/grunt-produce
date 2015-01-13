@@ -39,7 +39,8 @@ module.exports = function (grunt) {
                     template : 'templates/jq_template.tpl',
                     variables: {
                         name       : {
-                            default: 'MyPlugin'
+                            default: 'MyPlugin',
+                            required: true
                         },
                         description: {
                             default: 'Default description'
@@ -47,29 +48,6 @@ module.exports = function (grunt) {
                     },
                     fileName : 'tmp/{{name}}.coffee',
                     fileOverwrite : 'block'
-                }
-            },
-            // Targets for testing
-            test1    : {
-                options: {
-                    template : 'test/template/basic_template.tpl',
-                    variables: {
-                        name       : {
-                            default: 'DefaultTest'
-                        },
-                        description: {
-                            default: 'Default description'
-                        },
-                        username   : {
-                            default: 'Username'
-                        },
-                        email      : {
-                            default: 'email'
-                        }
-                    },
-                    fileName : function (vars) {
-                        return 'tmp/' + vars.name + '.txt';
-                    }
                 }
             }
         },
