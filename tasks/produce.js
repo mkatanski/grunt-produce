@@ -20,7 +20,12 @@ module.exports = function (grunt) {
         var _options = this.options({
             'fileName' : '{{name}}.ts',
             'template' : '',
-            'variables': {name: 'MyFile'},
+            'variables': {
+                name: {
+                    default: 'MyFile',
+                    validate: 'required'
+                }
+            },
             'fileOverwrite': 'block'
             // TODO: Add validate functions to each variable and required option
         });

@@ -43,8 +43,12 @@ exports.bump = {
         var _options = {
             template : 'test/template/basic_template.tpl',
             variables: {
-                name       : 'DefaultTest',
-                description: 'Default description'
+                name       : {
+                    default: 'DefaultTest'
+                },
+                description: {
+                    default: 'Default description'
+                }
             },
             fileName : function (vars) {
                 return 'tmp/' + vars.name + '.txt';
@@ -74,7 +78,7 @@ exports.bump = {
         test.strictEqual(produce.variables.username, gitUsername, 'produce.variables.username should be equal to git config');
         test.strictEqual(produce.variables.email, 'john@example.com', 'produce.variables.email should be equal to passed argument');
         test.strictEqual(produce.variables.name, 'Test1', 'produce.variables.name should be equal to passed argument');
-        test.strictEqual(produce.variables.description, _options.variables.description, 'produce.variables.description should be default');
+        test.strictEqual(produce.variables.description, _options.variables.description.default, 'produce.variables.description should be default');
 
         test.doesNotThrow(function(){
             produce.expandTemplate();
@@ -83,7 +87,7 @@ exports.bump = {
         template[0] = gitUsername;
         template[1] = 'john@example.com';
         template[2] = 'Test1';
-        template[3] = _options.variables.description;
+        template[3] = _options.variables.description.default;
 
         test.strictEqual(produce.template[0], template[0]);
         test.strictEqual(produce.template[1], template[1]);
@@ -100,7 +104,7 @@ exports.bump = {
         test.equal(fileLines[0], gitUsername);
         test.equal(fileLines[1], 'john@example.com');
         test.equal(fileLines[2], 'Test1');
-        test.equal(fileLines[3], _options.variables.description);
+        test.equal(fileLines[3], _options.variables.description.default);
 
         test.throws(function(){
             produce.saveFile();
