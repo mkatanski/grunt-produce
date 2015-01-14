@@ -11,17 +11,17 @@ variables:
     description:
        default: 'Default description'
        required: true
-fileName: 'tmp/{{name}}.coffee'
+fileName: 'tmp/<%= name %>.coffee'
 fileOverwrite: 'block'
 template: |
   #
-  # {{description}}
+  # <%= description %>
   #
-  # @author {{username}} ({{email}})
+  # @author <%= username %> (<%= email %>)
   do ($ = jQuery, window, document) ->
 
       # Create the defaults once
-      pluginName = "{{name}}"
+      pluginName = "<%= name %>"
       defaults =
           property: "value"
 

@@ -17,7 +17,7 @@ fileName: !!js/function >
   }
 fileOverwrite: 'block'
 template: |
-  {{username}}
-  {{email}}
-  {{name}}
-  {{description}}
+  <%= username %>
+  <%= email %>
+  <% print(name); %>
+  <%= description %>
