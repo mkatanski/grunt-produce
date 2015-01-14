@@ -36,18 +36,7 @@ module.exports = function (grunt) {
         produce : {
             jqplugin: {
                 options: {
-                    template : 'templates/jq_template.tpl',
-                    variables: {
-                        name       : {
-                            default: 'MyPlugin',
-                            required: true
-                        },
-                        description: {
-                            default: 'Default description'
-                        }
-                    },
-                    fileName : 'tmp/{{name}}.coffee',
-                    fileOverwrite : 'block'
+                    templateFile : 'defaultTemplates/jq_plugin-coffee.yml'
                 }
             }
         },

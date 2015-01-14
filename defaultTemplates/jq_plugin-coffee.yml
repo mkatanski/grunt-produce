@@ -1,0 +1,46 @@
+templateName: 'jQuery Plugin Template (CoffeeScript)'
+description: 'Create basic jQuery plugin written in CoffeeScript'
+variables:
+    name:
+       default: 'MyPlugin'
+       required: true
+       validate: !!js/function >
+         function(val, validator) {
+           return validator.isAlphanumeric(val);
+         }
+    description:
+       default: 'Default description'
+       required: true
+fileName: 'tmp/{{name}}.coffee'
+fileOverwrite: 'block'
+template: |
+  #
+  # {{description}}
+  #
+  # @author {{username}} ({{email}})
+  do ($ = jQuery, window, document) ->
+
+      # Create the defaults once
+      pluginName = "{{name}}"
+      defaults =
+          property: "value"
+
+      # The actual plugin constructor
+      class Plugin
+          constructor: (@element, options) ->
+              @settings = $.extend {}, defaults, options
+              @_defaults = defaults
+              @_name = pluginName
+              @init()
+
+          init: ->
+              # Place initialization logic here
+              console.log "xD"
+
+          yourOtherFunction: ->
+              # some logic
+
+      $.fn[pluginName] = (options) ->
+          @each ->
+              unless $.data @, "plugin_#{pluginName}"
+                  $.data @, "plugin_#{pluginName}", new Plugin @, options

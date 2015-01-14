@@ -48,6 +48,7 @@
   ],
   "dependencies": {
     "inquirer": "^0.8.0",
+    "js-yaml": "^3.2.5",
     "lodash": "^2.4.1",
     "shelljs": "^0.3.0",
     "validator": "^3.27.0"

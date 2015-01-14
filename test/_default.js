@@ -41,7 +41,7 @@ exports.bump = {
         test.deepEqual(typeof actual, 'function', 'Should export a function');
 
         var _options = {
-            template : 'test/template/basic_template.tpl',
+            templateFile : 'test/test_template.yml',
             variables: {
                 name       : {
                     default: 'DefaultTest',
@@ -71,7 +71,7 @@ exports.bump = {
 
         var gitUsername = produce._getGitConfig('user.name') || '';
         //var gitEmail = produce._getGitConfig('user.email') || '';
-        var template = grunt.file.read(_options.template).split(produce.NEW_LINE);
+        var template = grunt.file.read('test/template/basic_template.tpl').split(produce.NEW_LINE);
 
         test.strictEqual(produce.promptUser, false, 'produce.promptUser should set to false');
 

@@ -1,0 +1,23 @@
+templateName: 'Test template'
+description: 'grunt-produce testing template'
+variables:
+    name:
+       default: 'DefaultTest'
+       required: true
+       validate: !!js/function >
+         function(val, validator) {
+           return validator.isAlphanumeric(val);
+         }
+    description:
+       default: 'Default description'
+       required: true
+fileName: !!js/function >
+  function (vars) {
+    return 'tmp/' + vars.name + '.txt';
+  }
+fileOverwrite: 'block'
+template: |
+  {{username}}
+  {{email}}
+  {{name}}
+  {{description}}

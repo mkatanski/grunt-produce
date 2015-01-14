@@ -18,15 +18,7 @@ module.exports = function (grunt) {
 
         // Merge task-specific and/or target-specific options with these defaults.
         var _options = this.options({
-            'fileName' : '{{name}}.ts',
-            'template' : '',
-            'variables': {
-                name: {
-                    default: 'MyFile',
-                    required: true
-                }
-            },
-            'fileOverwrite': 'block'
+            'templateFile' : ''
         });
         // Create new ProduceModule instance
         var produce = new ProduceModule(grunt);
