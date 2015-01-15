@@ -54,19 +54,25 @@ exports.bump = {
 
         var gitUsername = produce._getGitConfig('user.name') || '';
 
-        test.strictEqual(produce.promptUser, false, 'produce.promptUser should set to false');
+        test.strictEqual(produce.promptUser, false,
+            'produce.promptUser should set to false');
 
-        test.strictEqual(produce.variables.username, gitUsername, 'produce.variables.username should be equal to git config');
-        test.strictEqual(produce.variables.email, 'john@example.com', 'produce.variables.email should be equal to passed argument');
-        test.strictEqual(produce.variables.name, 'Test1', 'produce.variables.name should be equal to passed argument');
-        test.strictEqual(produce.variables.description, 'Default description', 'produce.variables.description should be default');
+        test.strictEqual(produce.locals.username, gitUsername,
+            'produce.locals.username should be equal to git config');
+        test.strictEqual(produce.locals.email, 'john@example.com',
+            'produce.locals.email should be equal to passed argument');
+        test.strictEqual(produce.locals.name, 'Test1',
+            'produce.locals.name should be equal to passed argument');
+        test.strictEqual(produce.locals.description, 'Default description',
+            'produce.locals.description should be default');
 
         test.doesNotThrow(function(){
             produce.saveFile();
         });
 
         test.ok(grunt.file.exists('tmp/Test1.txt'));
-        var template = gitUsername+'\njohn@example.com\nTest1\nDefault description\n',
+        var template = gitUsername +
+                '\njohn@example.com\nTest1\nDefault description\n',
             fileLines = grunt.file.read('tmp/Test1.txt');
 
         test.equal(fileLines, template);
