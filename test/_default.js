@@ -23,65 +23,59 @@ var grunt = require('grunt');
  */
 
 exports.bump = {
-    setUp: function (done) {
-        // setup here if necessary
-        done();
-    },
-    load: function (test) {
+  load:  function (test) {
 
-        test.expect(12);
+    test.expect(12);
 
-        grunt.option('name', 'Test1');
-        grunt.option('email', 'john@example.com');
+    grunt.option('name', 'Test1');
+    grunt.option('email', 'john@example.com');
 
-        var actual = require('../tasks/produce'),
-            ProduceModule = require('../lib/ProduceModule.js'),
-            produce = null;
+    var actual = require('../tasks/produce'),
+        ProduceModule = require('../lib/ProduceModule.js'),
+        produce = null,
+        _options = {
+          templateFile: 'test/test_template.yml'
+        },
+        gitUsername = produce._getGitConfig('user.name') || '';
 
-        test.deepEqual(typeof actual, 'function', 'Should export a function');
+    test.deepEqual(typeof actual, 'function', 'Should export a function');
 
-        var _options = {
-            templateFile : 'test/test_template.yml'
-        };
+    test.doesNotThrow(function () {
+      produce = new ProduceModule(grunt);
+    });
 
-        test.doesNotThrow(function(){
-            produce = new ProduceModule(grunt);
-        });
+    test.doesNotThrow(function () {
+      produce.setup(_options);
+    });
 
-        test.doesNotThrow(function(){
-            produce.setup(_options);
-        });
+    test.strictEqual(produce.promptUser, false,
+        'produce.promptUser should set to false');
 
-        var gitUsername = produce._getGitConfig('user.name') || '';
+    test.strictEqual(produce.locals.username, gitUsername,
+        'produce.locals.username should be equal to git config');
+    test.strictEqual(produce.locals.email, 'john@example.com',
+        'produce.locals.email should be equal to passed argument');
+    test.strictEqual(produce.locals.name, 'Test1',
+        'produce.locals.name should be equal to passed argument');
+    test.strictEqual(produce.locals.description, 'Default description',
+        'produce.locals.description should be default');
 
-        test.strictEqual(produce.promptUser, false,
-            'produce.promptUser should set to false');
+    test.doesNotThrow(function () {
+      produce.saveFile();
+    });
 
-        test.strictEqual(produce.locals.username, gitUsername,
-            'produce.locals.username should be equal to git config');
-        test.strictEqual(produce.locals.email, 'john@example.com',
-            'produce.locals.email should be equal to passed argument');
-        test.strictEqual(produce.locals.name, 'Test1',
-            'produce.locals.name should be equal to passed argument');
-        test.strictEqual(produce.locals.description, 'Default description',
-            'produce.locals.description should be default');
+    test.ok(grunt.file.exists('tmp/Test1.txt'));
+    var template = gitUsername +
+            '\njohn@example.com\nTest1\nDefault description\n',
+        fileLines = grunt.file.read('tmp/Test1.txt');
 
-        test.doesNotThrow(function(){
-            produce.saveFile();
-        });
+    test.equal(fileLines, template);
 
-        test.ok(grunt.file.exists('tmp/Test1.txt'));
-        var template = gitUsername +
-                '\njohn@example.com\nTest1\nDefault description\n',
-            fileLines = grunt.file.read('tmp/Test1.txt');
-
-        test.equal(fileLines, template);
-
-        test.throws(function(){
-            produce.saveFile();
-        });
+    test.throws(function () {
+      produce.saveFile();
+    });
 
 
-        test.done();
-    }
+    test.done();
+  }
 };
