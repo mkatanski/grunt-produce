@@ -35,8 +35,7 @@ exports.bump = {
         produce = null,
         _options = {
           templateFile: 'test/test_template.yml'
-        },
-        gitUsername = produce._getGitConfig('user.name') || '';
+        };
 
     test.deepEqual(typeof actual, 'function', 'Should export a function');
 
@@ -47,6 +46,8 @@ exports.bump = {
     test.doesNotThrow(function () {
       produce.setup(_options);
     });
+
+    var gitUsername = produce._getGitConfig('user.name') || '';
 
     test.strictEqual(produce.promptUser, false,
         'produce.promptUser should set to false');

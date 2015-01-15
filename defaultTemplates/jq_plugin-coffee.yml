@@ -2,17 +2,17 @@ templateName: 'jQuery Plugin Template (CoffeeScript)'
 description: 'Create basic jQuery plugin written in CoffeeScript'
 variables:
     name:
-       default: 'MyPlugin'
+       value: 'MyPlugin'
        required: true
        validate: !!js/function >
          function(val, validator) {
            return validator.isAlphanumeric(val);
          }
     description:
-       default: 'Default description'
+       value: 'Default Description'
        required: true
 fileName: 'tmp/<%= name %>.coffee'
-fileOverwrite: 'block'
+fileOverwrite: 'warning'
 template: |
   #
   # <%= description %>

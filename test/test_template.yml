@@ -2,14 +2,14 @@ templateName: 'Test template'
 description: 'grunt-produce testing template'
 variables:
     name:
-       default: 'DefaultTest'
+       value: 'DefaultTest'
        required: true
        validate: !!js/function >
          function(val, validator) {
            return validator.isAlphanumeric(val);
          }
     description:
-       default: 'Default description'
+       value: 'Default description'
        required: true
 fileName: !!js/function >
   function (vars) {
