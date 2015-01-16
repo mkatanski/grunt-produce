@@ -16,10 +16,6 @@ variables:
           function(core) {
             return core.git.getEmail();
           }
-fileName: !!js/function >
-  function (locals) {
-    return 'tmp/' + locals.variables.name + '.txt';
-  }
 fileOverwrite: 'block'
 template: |
   <% print(variables.name); %>

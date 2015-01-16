@@ -35,7 +35,11 @@ exports.bump = {
         Git = require('../lib/Git.js'),
         produce = null,
         _options = {
-          templateFile: 'test/test_template.yml'
+          templateFile: 'test/test_template.yml',
+          outputFile: function (locals) {
+            return 'tmp/' + locals.variables.name + '.txt';
+          }
+
         };
 
     Git = new Git();

@@ -36,7 +36,8 @@ module.exports = function (grunt) {
     produce:  {
       jqplugin: {
         options: {
-          templateFile: 'defaultTemplates/jq_plugin-coffee.yml'
+          templateFile: 'defaultTemplates/jq_plugin-coffee.yml',
+          outputFile: 'tmp/<%= variables.name %>.coffee'
         }
       }
     },
