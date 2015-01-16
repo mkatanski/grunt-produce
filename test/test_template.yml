@@ -11,13 +11,18 @@ variables:
     description:
        value: 'Default description'
        required: true
+    email:
+       value: !!js/function >
+          function(core) {
+            return core.git.getEmail();
+          }
 fileName: !!js/function >
-  function (vars) {
-    return 'tmp/' + vars.name + '.txt';
+  function (locals) {
+    return 'tmp/' + locals.variables.name + '.txt';
   }
 fileOverwrite: 'block'
 template: |
-  <%= username %>
-  <%= email %>
-  <% print(name); %>
-  <%= description %>
+  <% print(variables.name); %>
+  <%= variables.description %>
+  <%= core.git.getUsername() %>
+  <%= variables.email(core) %>

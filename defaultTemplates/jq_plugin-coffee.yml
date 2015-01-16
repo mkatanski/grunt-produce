@@ -11,17 +11,17 @@ variables:
     description:
        value: 'Default Description'
        required: true
-fileName: 'tmp/<%= name %>.coffee'
+fileName: 'tmp/<%= variables.name %>.coffee'
 fileOverwrite: 'warning'
 template: |
   #
-  # <%= description %>
+  # <%= variables.description %>
   #
-  # @author <%= username %> (<%= email %>)
+  # @author <%= core.git.getUsername() %> (<%= core.git.getEmail() %>)
   do ($ = jQuery, window, document) ->
 
       # Create the defaults once
-      pluginName = "<%= name %>"
+      pluginName = "<%= variables.name %>"
       defaults =
           property: "value"
 
