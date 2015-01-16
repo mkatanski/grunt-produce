@@ -1,3 +1,26 @@
+<a name="0.3.1"></a>
+### 0.3.1 (2015-01-17)
+
+
+#### Bug Fixes
+
+* **app:**
+  * Move fileOverwrite option declaration to grunt options ([dee76461](http://github.com/mkatanski/grunt-produce/commit/dee764613735274270f65c48859b530da9643657))
+  * Move output filename declaration to grunt options ([2c62c0c8](http://github.com/mkatanski/grunt-produce/commit/2c62c0c880d631076b5e03952f2eb254e2e07f58))
+
+
+#### Features
+
+* **app:** Group template variables and add core functionality ([f9ad4cab](http://github.com/mkatanski/grunt-produce/commit/f9ad4cab178ecff725abd041ab8bde8008db54a4))
+
+
+#### Breaking Changes
+
+* Variables in templates are now grouped into 'core' and 'variables' objects.
+Git functionality is moved into core group as a class.
+ ([f9ad4cab](http://github.com/mkatanski/grunt-produce/commit/f9ad4cab178ecff725abd041ab8bde8008db54a4))
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2015-01-16)
 
