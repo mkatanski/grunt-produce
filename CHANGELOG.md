@@ -27,25 +27,6 @@
  ([1ad0b249](http://github.com/mkatanski/grunt-produce/commit/1ad0b249a224b9dd214a62dd69f9a7bfa2f34a34))
 
 
-<a name="0.2.0"></a>
-## 0.2.0 (2015-01-14)
-
-
-#### Features
-
-* **app:**
-  * Change template engine to _underscore ([8013325e](http://github.com/mkatanski/grunt-produce/commit/8013325e795d325c8b189ad56f173bece98c0c24))
-  * Templates are now YAML files ([1ad0b249](http://github.com/mkatanski/grunt-produce/commit/1ad0b249a224b9dd214a62dd69f9a7bfa2f34a34))
-  * Add validate functions to each variable and required option ([f275c6cd](http://github.com/mkatanski/grunt-produce/commit/f275c6cd3d3897b26bba10e104bb7a07ed724ad5))
-  * Variables are now objects ([29917f15](http://github.com/mkatanski/grunt-produce/commit/29917f15e87cac7e23fe72c0d128a0e9dbba1ff3))
-
-
-#### Breaking Changes
-
-* Printing variables in template has to met _underscore specification
- ([8013325e](http://github.com/mkatanski/grunt-produce/commit/8013325e795d325c8b189ad56f173bece98c0c24))
-* Templates variables and settings are defined in YAML files.
- ([1ad0b249](http://github.com/mkatanski/grunt-produce/commit/1ad0b249a224b9dd214a62dd69f9a7bfa2f34a34))
 
 
 <a name="0.2.0"></a>
