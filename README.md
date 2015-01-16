@@ -1,4 +1,5 @@
 # grunt-produce
+[![Build Status](https://travis-ci.org/mkatanski/grunt-produce.svg)](https://travis-ci.org/mkatanski/grunt-produce)
 
 > Automating the process of creating project files.
 
