@@ -38,7 +38,8 @@ exports.bump = {
           templateFile: 'test/test_template.yml',
           outputFile: function (locals) {
             return 'tmp/' + locals.variables.name + '.txt';
-          }
+          },
+          fileOverwrite: 'block'
 
         };
 

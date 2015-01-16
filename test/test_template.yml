@@ -16,7 +16,6 @@ variables:
           function(core) {
             return core.git.getEmail();
           }
-fileOverwrite: 'block'
 template: |
   <% print(variables.name); %>
   <%= variables.description %>
