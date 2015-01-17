@@ -3,6 +3,8 @@
 
 > Automating the process of creating project files.
 
+[![NPM](https://nodei.co/npm/grunt-produce.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/grunt-produce/)
+
 This module will help you use the Grunt CLI as a tool to create project files from templates. Especially it is handy when your project is made up of multiple source files on a recurring scheme (eg. MVC applications).
 
 After the implementation of the module to the project, the final effect should be like a Artisan tool from Laravel Framework. Although it depends on you how files will be created and what will they contain.
