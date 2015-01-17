@@ -1,4 +1,4 @@
-# grunt-produce ![dev-version](https://img.shields.io/badge/version-beta%202-orange.svg?style=flat)
+# grunt-produce ![dev-version](https://img.shields.io/badge/version-beta-orange.svg?style=flat)
  [![Build Status](https://travis-ci.org/mkatanski/grunt-produce.svg)](https://travis-ci.org/mkatanski/grunt-produce) [![Codacy Badge](https://www.codacy.com/project/badge/32070d6b49da413bb52956347320baca)](https://www.codacy.com/public/mkatanski/grunt-produce) [![Dependency Status](https://gemnasium.com/mkatanski/grunt-produce.svg)](https://gemnasium.com/mkatanski/grunt-produce) [![Coverage Status](https://coveralls.io/repos/mkatanski/grunt-produce/badge.svg)](https://coveralls.io/r/mkatanski/grunt-produce) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/mkatanski/grunt-produce/master/LICENSE-MIT)
 
 > Automating the process of creating project files.
