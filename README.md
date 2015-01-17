@@ -1,5 +1,5 @@
 # grunt-produce
-[![Build Status](https://travis-ci.org/mkatanski/grunt-produce.svg)](https://travis-ci.org/mkatanski/grunt-produce) [![Dependency Status](https://gemnasium.com/mkatanski/grunt-produce.svg)](https://gemnasium.com/mkatanski/grunt-produce) [![Coverage Status](https://coveralls.io/repos/mkatanski/grunt-produce/badge.svg)](https://coveralls.io/r/mkatanski/grunt-produce)
+[![Build Status](https://travis-ci.org/mkatanski/grunt-produce.svg)](https://travis-ci.org/mkatanski/grunt-produce) [![Dependency Status](https://gemnasium.com/mkatanski/grunt-produce.svg)](https://gemnasium.com/mkatanski/grunt-produce) [![Coverage Status](https://coveralls.io/repos/mkatanski/grunt-produce/badge.svg)](https://coveralls.io/r/mkatanski/grunt-produce) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/mkatanski/grunt-produce/master/LICENSE-MIT)
 
 > Automating the process of creating project files.
 
