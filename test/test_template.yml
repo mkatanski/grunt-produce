@@ -16,6 +16,20 @@ variables:
           function(core) {
             return core.git.getEmail();
           }
+       validate: !!js/function >
+          function(val, validator) {
+            return validator.isAlphanumeric(val);
+          }
+    unusedVariable:
+       value:
+       required: true
+    incorrectVariable:
+       value: 'johnATdoe.com'
+       required: false
+       validate: !!js/function >
+          function(val, validator) {
+            return validator.isEmail(val);
+          }
 template: |
   <% print(variables.name); %>
   <%= variables.description %>
