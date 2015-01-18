@@ -1,3 +1,12 @@
+<a name="0.3.2"></a>
+### 0.3.2 (2015-01-18)
+
+
+#### Bug Fixes
+
+* **tests:** Improve testing to cover all functions so far ([f9306f97](http://github.com/mkatanski/grunt-produce/commit/f9306f9730e1eff510f6f18a0d35d3f4527b660f))
+
+
 <a name="0.3.1"></a>
 ### 0.3.1 (2015-01-17)
 
